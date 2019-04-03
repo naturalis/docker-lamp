@@ -1,63 +1,45 @@
 version: '3'
 
 services:
-
   db:
-    image: mattermost/mattermost-prod-db:5.8.0
-    read_only: true
+    image: mysql:8.0
     restart: unless-stopped
     logging:
       driver: "json-file"
       options:
         max-size: '10m'
         max-file: '5'
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-blablabla}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-lampdb}
+      MYSQL_USER: ${MYSQL_USER:-db_user}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-blablabla}
     volumes:
-      - ${BASE_PATH:-/data}/postgresql:/var/lib/postgresql/data
-      - /etc/localtime:/etc/localtime:ro
-    env_file:
-      - .env
-
-  app:
-    image: mattermost/mattermost-prod-app:5.6.5
-    restart: unless-stopped
-    logging:
-      driver: "json-file"
-      options:
-        max-size: '10m'
-        max-file: '5'
-    volumes:
-      - ${BASE_PATH:-/data}/config:/mattermost/config:rw
-      - ${BASE_PATH:-/data}/data:/mattermost/data:rw
-      - ${BASE_PATH:-/data}/logs:/mattermost/logs:rw
-      - ${BASE_PATH:-/data}/plugins:/mattermost/plugins:rw
-      - ${BASE_PATH:-/data}/client-plugins:/mattermost/client/plugins:rw
-      - /etc/localtime:/etc/localtime:ro
-    env_file:
-      - .env
+      - ${BASE_PATH:-/data}/mysql:/var/lib/mysql
+    networks:
+      - default
 
   web:
-    image: mattermost/mattermost-prod-web:5.8.0
-    read_only: true
+    image: php:7.3.3-apache
     restart: unless-stopped
     logging:
       driver: "json-file"
       options:
         max-size: '10m'
         max-file: '5'
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-lampdb}
+      MYSQL_USER: ${MYSQL_USER:-db_user}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-blablabla}
     labels:
-      - "traefik.backend=naturalis-mattermost"
+      - "traefik.backend=naturalis"
       - "traefik.enable=true"
       - "traefik.port=80"
-      - "${SITE_URL:-traefik.frontend.rule=Host:chat.museum.naturalis.nl}"
+      - "${SITE_URL:-traefik.frontend.rule=Host:lamp.site.nl}"
     volumes:
-      # This directory must have cert files if you want to enable SSL
-      - ${BASE_PATH:-/data}/web/cert:/cert:ro
-      - /etc/localtime:/etc/localtime:ro
-    # Uncomment for SSL
-    # environment:
-    #  - MATTERMOST_ENABLE_SSL=true
-    env_file:
-      - .env
+      - ${BASE_PATH:-/data}/www:/var/www/html
+    networks:
+      - default
 
   traefik:
     image: traefik:1.7.4

@@ -1,33 +1,30 @@
-docker_mattermost 
+docker_lamp
 =====================
-docker-compose definition for deployment of naturalis mattermost server.
+docker-compose definition for deployment of generic lamp server with Traefik 
 
 
 Docker-compose
 --------------
 
-This puppet script configures a complete docker-compose setup for mattermost. Which
+This puppet script configures a complete docker-compose setup for a lamp server. Which
 consists of:
 
- - db
- - app
- - web
+ - mysql
+ - php-apache
  - traefik
 
 It is started using Foreman which creates:
 
  - .env file
- - docker-compose.yml
  - traefik.toml
 
 The puppet script generates:
 
--
+running docker-compose project
 
 Result
 ------
-Working webserver with mysql and nextcloud installation with custom installation
-profile.  It is in production on https://chat.museum.naturalis.nl
+Working webserver with mysql for generic lamp sites. 
 
 Limitations
 -----------
