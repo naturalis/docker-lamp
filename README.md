@@ -1,6 +1,6 @@
 docker_lamp
 =====================
-docker-compose definition for deployment of generic lamp server with Traefik 
+docker-compose definition for deployment of generic lamp server with Traefik, support for max 5 sites 
 
 
 Docker-compose

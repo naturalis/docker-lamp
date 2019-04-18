@@ -8,36 +8,164 @@ x-logging:
   driver: json-file
 
 services:
-  db:
-    image: ${DB_IMAGE:-mysql:8.0}
-    restart: ${DB_RESTART_POLICY:-unless-stopped}
+  db1:
+    image: ${DB_IMAGE_1:-mysql:8.0}
+    restart: ${DB_RESTART_POLICY_1:-unless-stopped}
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-blablabla}
-      MYSQL_DATABASE: ${MYSQL_DATABASE:-lampdb}
-      MYSQL_USER: ${MYSQL_USER:-db_user}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-blablabla}
+      MYSQL_DATABASE: ${MYSQL_DATABASE_1:-lampdb}
+      MYSQL_USER: ${MYSQL_USER_1:-db_user}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD_1:-blablabla}
     volumes:
-      - ${BASE_PATH:-/data}/mysql:/var/lib/mysql
+      - ${BASE_PATH_1:-/data}/mysql:/var/lib/mysql
     networks:
       - default
 
-  web:
-    image: ${WEB_IMAGE:-php:7.3.3-apache}
-    restart: unless-stopped
+  web1:
+    image: ${WEB_IMAGE_1:-php:7.3.3-apache}
+    restart: ${WEB_RESTART_POLICY_1:-unless-stopped}
     logging: *default-logging
     environment:
-      MYSQL_DATABASE: ${MYSQL_DATABASE:-lampdb}
-      MYSQL_USER: ${MYSQL_USER:-db_user}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-blablabla}
+      MYSQL_DATABASE: ${MYSQL_DATABASE_1:-lampdb}
+      MYSQL_USER: ${MYSQL_USER_1:-db_user}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD_1:-blablabla}
     labels:
       - "traefik.backend=naturalis"
       - "traefik.enable=true"
-      - "traefik.port=${TRAEFIK_WEB_PORT:-80}"
-      - "${SITE_URL:-traefik.frontend.rule=Host:lamp.site.nl}"
+      - "traefik.port=${TRAEFIK_WEB_PORT_1:-80}"
+      - "${SITE_URL_1:-traefik.frontend.rule=Host:lamp.site1.nl}"
     volumes:
-      - ${BASE_PATH:-/data}/www:/var/www/html
+      - ${BASE_PATH_1:-/data}/www:/var/www/html
     networks:
       - default
+
+  db2:
+    image: ${DB_IMAGE_2:-busybox:1.30.1}
+    restart: ${DB_RESTART_POLICY_2:-no}
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-blablabla}
+      MYSQL_DATABASE: ${MYSQL_DATABASE_2:-lampdb}
+      MYSQL_USER: ${MYSQL_USER_2:-db_user}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD_2:-blablabla}
+    volumes:
+      - ${BASE_PATH_2:-/data}/mysql:/var/lib/mysql
+    networks:
+      - default
+
+  web2:
+    image: ${WEB_IMAGE_2:-busybox:1.30.1}
+    restart: ${WEB_RESTART_POLICY_2:-no}
+    logging: *default-logging
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE_2:-lampdb}
+      MYSQL_USER: ${MYSQL_USER_2:-db_user}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD_2:-blablabla}
+    labels:
+      - "traefik.backend=naturalis"
+      - "traefik.enable=true"
+      - "traefik.port=${TRAEFIK_WEB_PORT_2:-80}"
+      - "${SITE_URL_2-traefik.frontend.rule=Host:lamp.site2.nl}"
+    volumes:
+      - ${BASE_PATH_2:-/data}/www:/var/www/html
+    networks:
+      - default
+
+
+  db3:
+    image: ${DB_IMAGE_3:-busybox:1.30.1}
+    restart: ${DB_RESTART_POLICY_3:-no}
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-blablabla}
+      MYSQL_DATABASE: ${MYSQL_DATABASE_3:-lampdb}
+      MYSQL_USER: ${MYSQL_USER_3:-db_user}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD_3:-blablabla}
+    volumes:
+      - ${BASE_PATH_3:-/data}/mysql:/var/lib/mysql
+    networks:
+      - default
+
+  web3:
+    image: ${WEB_IMAGE_3:-busybox:1.30.1}
+    restart: ${WEB_RESTART_POLICY_3:-no}
+    logging: *default-logging
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE_3:-lampdb}
+      MYSQL_USER: ${MYSQL_USER_3:-db_user}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD_3:-blablabla}
+    labels:
+      - "traefik.backend=naturalis"
+      - "traefik.enable=true"
+      - "traefik.port=${TRAEFIK_WEB_PORT_3:-80}"
+      - "${SITE_URL_3-traefik.frontend.rule=Host:lamp.site3.nl}"
+    volumes:
+      - ${BASE_PATH_3:-/data}/www:/var/www/html
+    networks:
+      - default
+
+
+  db4:
+    image: ${DB_IMAGE_4:-busybox:1.30.1}
+    restart: ${DB_RESTART_POLICY_4:-no}
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-blablabla}
+      MYSQL_DATABASE: ${MYSQL_DATABASE_4:-lampdb}
+      MYSQL_USER: ${MYSQL_USER_4:-db_user}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD_4:-blablabla}
+    volumes:
+      - ${BASE_PATH_4:-/data}/mysql:/var/lib/mysql
+    networks:
+      - default
+
+  web4:
+    image: ${WEB_IMAGE_4:-busybox:1.30.1}
+    restart: ${WEB_RESTART_POLICY_4:-no}
+    logging: *default-logging
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE_4:-lampdb}
+      MYSQL_USER: ${MYSQL_USER_4:-db_user}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD_4:-blablabla}
+    labels:
+      - "traefik.backend=naturalis"
+      - "traefik.enable=true"
+      - "traefik.port=${TRAEFIK_WEB_PORT_4:-80}"
+      - "${SITE_URL_4-traefik.frontend.rule=Host:lamp.site2.nl}"
+    volumes:
+      - ${BASE_PATH_4:-/data}/www:/var/www/html
+    networks:
+      - default
+
+
+  db5:
+    image: ${DB_IMAGE_4:-busybox:1.30.1}
+    restart: ${DB_RESTART_POLICY_4:-no}
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-blablabla}
+      MYSQL_DATABASE: ${MYSQL_DATABASE_4:-lampdb}
+      MYSQL_USER: ${MYSQL_USER_4:-db_user}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD_4:-blablabla}
+    volumes:
+      - ${BASE_PATH_4:-/data}/mysql:/var/lib/mysql
+    networks:
+      - default
+
+  web5:
+    image: ${WEB_IMAGE_5:-busybox:1.30.1}
+    restart: ${WEB_RESTART_POLICY_5:-no}
+    logging: *default-logging
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE_5:-lampdb}
+      MYSQL_USER: ${MYSQL_USER_5:-db_user}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD_5:-blablabla}
+    labels:
+      - "traefik.backend=naturalis"
+      - "traefik.enable=true"
+      - "traefik.port=${TRAEFIK_WEB_PORT_5:-80}"
+      - "${SITE_URL_5-traefik.frontend.rule=Host:lamp.site2.nl}"
+    volumes:
+      - ${BASE_PATH_5:-/data}/www:/var/www/html
+    networks:
+      - default
+
 
   traefik:
     image: traefik:1.7.10
