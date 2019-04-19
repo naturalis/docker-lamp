@@ -35,7 +35,7 @@ services:
       - "traefik.port=${TRAEFIK_WEB_PORT_1:-80}"
       - "${SITE_URL_1:-traefik.frontend.rule=Host:lamp.site1.nl}"
     volumes:
-      - ${BASE_PATH_1:-/data}/www:/var/www/html
+      - ${BASE_PATH_1:-/data}/www:${WEB_DOCROOT_1:-/var/www/html}
     networks:
       - default
 
@@ -66,7 +66,7 @@ services:
       - "traefik.port=${TRAEFIK_WEB_PORT_2:-80}"
       - "${SITE_URL_2-traefik.frontend.rule=Host:lamp.site2.nl}"
     volumes:
-      - ${BASE_PATH_2:-/data}/www:/var/www/html
+      - ${BASE_PATH_2:-/data}/www:${WEB_DOCROOT_2:-/var/www/html}
     networks:
       - default
 
@@ -98,7 +98,7 @@ services:
       - "traefik.port=${TRAEFIK_WEB_PORT_3:-80}"
       - "${SITE_URL_3-traefik.frontend.rule=Host:lamp.site3.nl}"
     volumes:
-      - ${BASE_PATH_3:-/data}/www:/var/www/html
+      - ${BASE_PATH_3:-/data}/www:${WEB_DOCROOT_3:-/var/www/html}
     networks:
       - default
 
@@ -130,7 +130,7 @@ services:
       - "traefik.port=${TRAEFIK_WEB_PORT_4:-80}"
       - "${SITE_URL_4-traefik.frontend.rule=Host:lamp.site4.nl}"
     volumes:
-      - ${BASE_PATH_4:-/data}/www:/var/www/html
+      - ${BASE_PATH_4:-/data}/www:${WEB_DOCROOT_4:-/var/www/html}
     networks:
       - default
 
@@ -162,7 +162,7 @@ services:
       - "traefik.port=${TRAEFIK_WEB_PORT_5:-80}"
       - "${SITE_URL_5-traefik.frontend.rule=Host:lamp.site5.nl}"
     volumes:
-      - ${BASE_PATH_5:-/data}/www:/var/www/html
+      - ${BASE_PATH_5:-/data}/www:${WEB_DOCROOT_5:-/var/www/html}
     networks:
       - default
 
