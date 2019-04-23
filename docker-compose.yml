@@ -30,7 +30,7 @@ services:
       MYSQL_USER: ${MYSQL_USER_1:-db_user}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD_1:-blablabla}
     labels:
-      - "traefik.backend=naturalis"
+      - "traefik.backend=naturalis-web1"
       - "traefik.enable=true"
       - "traefik.port=${TRAEFIK_WEB_PORT_1:-80}"
       - "${SITE_URL_1:-traefik.frontend.rule=Host:lamp.site1.nl}"
@@ -61,7 +61,7 @@ services:
       MYSQL_USER: ${MYSQL_USER_2:-db_user}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD_2:-blablabla}
     labels:
-      - "traefik.backend=naturalis"
+      - "traefik.backend=naturalis-web2"
       - "traefik.enable=true"
       - "traefik.port=${TRAEFIK_WEB_PORT_2:-80}"
       - "${SITE_URL_2-traefik.frontend.rule=Host:lamp.site2.nl}"
@@ -93,7 +93,7 @@ services:
       MYSQL_USER: ${MYSQL_USER_3:-db_user}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD_3:-blablabla}
     labels:
-      - "traefik.backend=naturalis"
+      - "traefik.backend=naturalis-web3"
       - "traefik.enable=true"
       - "traefik.port=${TRAEFIK_WEB_PORT_3:-80}"
       - "${SITE_URL_3-traefik.frontend.rule=Host:lamp.site3.nl}"
@@ -125,7 +125,7 @@ services:
       MYSQL_USER: ${MYSQL_USER_4:-db_user}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD_4:-blablabla}
     labels:
-      - "traefik.backend=naturalis"
+      - "traefik.backend=naturalis-web4"
       - "traefik.enable=true"
       - "traefik.port=${TRAEFIK_WEB_PORT_4:-80}"
       - "${SITE_URL_4-traefik.frontend.rule=Host:lamp.site4.nl}"
@@ -157,7 +157,7 @@ services:
       MYSQL_USER: ${MYSQL_USER_5:-db_user}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD_5:-blablabla}
     labels:
-      - "traefik.backend=naturalis"
+      - "traefik.backend=naturalis-web5"
       - "traefik.enable=true"
       - "traefik.port=${TRAEFIK_WEB_PORT_5:-80}"
       - "${SITE_URL_5-traefik.frontend.rule=Host:lamp.site5.nl}"
