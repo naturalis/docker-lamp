@@ -30,10 +30,10 @@ services:
       MYSQL_USER: ${MYSQL_USER_1:-db_user}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD_1:-blablabla}
     labels:
-      - "traefik.backend=naturalis-web1"
-      - "traefik.enable=true"
-      - "traefik.port=${TRAEFIK_WEB_PORT_1:-80}"
-      - "${SITE_URL_1:-traefik.frontend.rule=Host:lamp.site1.nl}"
+      - traefik.http.routers.web1.entrypoints=https
+      - traefik.http.routers.web1.tls.certresolver=${TRAEFIK_CERT_RESOLVER_1:-default}
+      - traefik.http.routers.web1.tls=true
+      - traefik.http.routers.web1.rule=${SITE_URL_1:-Host(`lamp.site1.nl`)}
     volumes:
       - ${BASE_PATH_1:-/data}/www:${WEB_DOCROOT_1:-/var/www/html}
     networks:
@@ -61,10 +61,10 @@ services:
       MYSQL_USER: ${MYSQL_USER_2:-db_user}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD_2:-blablabla}
     labels:
-      - "traefik.backend=naturalis-web2"
-      - "traefik.enable=true"
-      - "traefik.port=${TRAEFIK_WEB_PORT_2:-80}"
-      - "${SITE_URL_2-traefik.frontend.rule=Host:lamp.site2.nl}"
+      - traefik.http.routers.web2.entrypoints=https
+      - traefik.http.routers.web2.tls.certresolver=${TRAEFIK_CERT_RESOLVER_2:-default}
+      - traefik.http.routers.web2.tls=true
+      - traefik.http.routers.web2.rule=${SITE_URL_2:-Host(`lamp.site2.nl`)}
     volumes:
       - ${BASE_PATH_2:-/data}/www:${WEB_DOCROOT_2:-/var/www/html}
     networks:
@@ -93,10 +93,10 @@ services:
       MYSQL_USER: ${MYSQL_USER_3:-db_user}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD_3:-blablabla}
     labels:
-      - "traefik.backend=naturalis-web3"
-      - "traefik.enable=true"
-      - "traefik.port=${TRAEFIK_WEB_PORT_3:-80}"
-      - "${SITE_URL_3-traefik.frontend.rule=Host:lamp.site3.nl}"
+      - traefik.http.routers.web3.entrypoints=https
+      - traefik.http.routers.web3.tls.certresolver=${TRAEFIK_CERT_RESOLVER_3:-default}
+      - traefik.http.routers.web3.tls=true
+      - traefik.http.routers.web3.rule=${SITE_URL_3:-Host(`lamp.site3.nl`)}
     volumes:
       - ${BASE_PATH_3:-/data}/www:${WEB_DOCROOT_3:-/var/www/html}
     networks:
@@ -125,10 +125,10 @@ services:
       MYSQL_USER: ${MYSQL_USER_4:-db_user}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD_4:-blablabla}
     labels:
-      - "traefik.backend=naturalis-web4"
-      - "traefik.enable=true"
-      - "traefik.port=${TRAEFIK_WEB_PORT_4:-80}"
-      - "${SITE_URL_4-traefik.frontend.rule=Host:lamp.site4.nl}"
+      - traefik.http.routers.web4.entrypoints=https
+      - traefik.http.routers.web4.tls.certresolver=${TRAEFIK_CERT_RESOLVER_4:-default}
+      - traefik.http.routers.web4.tls=true
+      - traefik.http.routers.web4.rule=${SITE_URL_4:-Host(`lamp.site4.nl`)}
     volumes:
       - ${BASE_PATH_4:-/data}/www:${WEB_DOCROOT_4:-/var/www/html}
     networks:
@@ -157,21 +157,23 @@ services:
       MYSQL_USER: ${MYSQL_USER_5:-db_user}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD_5:-blablabla}
     labels:
-      - "traefik.backend=naturalis-web5"
-      - "traefik.enable=true"
-      - "traefik.port=${TRAEFIK_WEB_PORT_5:-80}"
-      - "${SITE_URL_5-traefik.frontend.rule=Host:lamp.site5.nl}"
+      - traefik.http.routers.web5.entrypoints=https
+      - traefik.http.routers.web5.tls.certresolver=${TRAEFIK_CERT_RESOLVER_5:-default}
+      - traefik.http.routers.web5.tls=true
+      - traefik.http.routers.web5.rule=${SITE_URL_5:-Host(`lamp.site5.nl`)}
     volumes:
       - ${BASE_PATH_5:-/data}/www:${WEB_DOCROOT_5:-/var/www/html}
     networks:
       - default
 
-
   traefik:
-    image: traefik:1.7.12
+    image: traefik:2.1
     container_name: traefik
     restart: unless-stopped
-    logging: *default-logging
+    environment:
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_HOSTED_ZONE_ID=${AWS_HOSTED_ZONE_ID}
     ports:
       - 80:80
       - 443:443
@@ -179,11 +181,10 @@ services:
     networks:
       - default
       - web
+    logging: *default-logging
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ${BASE_PATH:-/data}/traefiklogs/traefik.log:/var/log/traefik.log
-      - ${TRAEFIK_TOML_FILE:-./traefik.toml}:/traefik.toml
-      - ${CERTDIR:-/etc/letsencrypt}:/etc/letsencrypt
+      - ./traefik:/etc/traefik
 
 networks:
     default:

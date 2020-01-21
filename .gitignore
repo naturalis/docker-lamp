@@ -1,4 +1,4 @@
 .env
-traefik.toml
-acme.json
-.transip.key
+traefik/acme.json
+traefik/traefik.toml
+
