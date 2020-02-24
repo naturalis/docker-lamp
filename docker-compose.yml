@@ -172,24 +172,40 @@ services:
       - default
 
   traefik:
-    image: traefik:2.1
-    container_name: traefik
+    image: traefik:2.1.4
+    container_name: "traefik"
     restart: unless-stopped
     environment:
-      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
-      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
-      - AWS_HOSTED_ZONE_ID=${AWS_HOSTED_ZONE_ID}
+      - "AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}"
+      - "AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}"
+      - "AWS_HOSTED_ZONE_ID=${AWS_HOSTED_ZONE_ID}"
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.route53.acme.dnschallenge=true"
+      - "--certificatesresolvers.route53.acme.dnschallenge.provider=route53"
+      - "--certificatesresolvers.route53.acme.email=${ACME_EMAIL}"
+      - "--certificatesresolvers.route53.acme.storage=/letsencrypt/route53.json"
+      - "--certificatesresolvers.default.acme.httpChallenge.entryPoint=web"
+      - "--certificatesresolvers.default.acme.email=${ACME_EMAIL}"
+      - "--certificatesresolvers.default.acme.storage=/letsencrypt/acme.json"
+      - "--global.sendAnonymousUsage=false"
     ports:
-      - 80:80
-      - 443:443
-      - 8081:8080
-    networks:
-      - default
-      - web
-    logging: *default-logging
+      - "80:80"
+      - "443:443"
+      - "127.0.0.1:8081:8080"
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - ./traefik:/etc/traefik
+      - "./letsencrypt:/letsencrypt"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    labels:
+      - "traefik.http.routers.http-catchall.rule=hostregexp(`{host:.+}`)"
+      - "traefik.http.routers.http-catchall.entrypoints=web"
+      - "traefik.http.routers.http-catchall.middlewares=redirect-to-https"
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+
 
 networks:
     default:

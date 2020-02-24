@@ -11,12 +11,11 @@ consists of:
 
  - mysql
  - php-apache
- - traefik
+ - traefik 2.x
 
 It is started using Foreman which creates:
 
  - .env file
- - traefik.toml
 
 The puppet script generates:
 
