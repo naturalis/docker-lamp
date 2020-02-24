@@ -184,7 +184,7 @@ services:
       - "--providers.docker=true"
       - "--providers.docker"
       - "--entrypoints.web.address=:80"
-      - "--entrypoints.websecure.address=:443"
+      - "--entrypoints.https.address=:443"
       - "--certificatesresolvers.route53.acme.dnschallenge=true"
       - "--certificatesresolvers.route53.acme.dnschallenge.provider=route53"
       - "--certificatesresolvers.route53.acme.email=${ACME_EMAIL}"
